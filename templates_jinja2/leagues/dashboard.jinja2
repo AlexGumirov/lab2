@@ -1,0 +1,56 @@
+{% extends "leagues/base.jinja2" %}
+{% import "leagues/_macros.jinja2" as ui %}
+
+{% block title %}Главная — Top Expensive Leagues{% endblock %}
+
+{% block content %}
+  <h1>Топ дорогих лиг</h1>
+  <p class="muted">Витрина по данным из <code>top_expensive_leagues.csv</code>.</p>
+
+  <div class="grid">
+    {{ ui.stats_table("Статистика (counts)", stats_counts) }}
+    {{ ui.table_dict("Сводные метрики", ["Метрика", "Значение"], overall_rows) }}
+  </div>
+
+  <div class="grid">
+    {{ ui.table_dict(
+      "Top-20 лиг по выручке (Revenue)",
+      ["League ID", "League Name", "Country", "Sport", "Revenue (USD)", "Top Team"],
+      top_by_revenue_rows
+    ) }}
+
+    {{ ui.table_dict(
+      "Top-20 лиг по средней зарплате (Average Player Salary)",
+      ["League ID", "League Name", "Country", "Sport", "Average Player Salary (USD)", "Top Team"],
+      top_by_salary_rows
+    ) }}
+  </div>
+
+  <div class="grid">
+    {{ ui.table_dict(
+      "Top стран по суммарной выручке",
+      ["Country", "Лиг", "Суммарная выручка (USD)", "Средняя выручка (USD)", "Средняя зарплата (USD)", "Средняя аудитория"],
+      top_countries_rows
+    ) }}
+
+    {{ ui.table_dict(
+      "Top видов спорта по суммарной выручке",
+      ["Sport", "Лиг", "Суммарная выручка (USD)", "Средняя зарплата (USD)", "Средняя аудитория"],
+      top_sports_rows
+    ) }}
+  </div>
+
+  <div class="grid">
+    {{ ui.table_dict(
+      "Команды (до 200)",
+      ["Team", "League", "Country", "Sport", "Is Top Team"],
+      teams_rows
+    ) }}
+
+    {{ ui.table_dict(
+      "Команды по видам спорта",
+      ["Sport", "Teams", "Top Teams"],
+      teams_by_sport_rows
+    ) }}
+  </div>
+{% endblock %}

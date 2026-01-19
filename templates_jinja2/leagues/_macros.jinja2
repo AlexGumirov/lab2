@@ -1,0 +1,55 @@
+{% macro table_dict(title, columns, rows, empty_text="Нет данных") %}
+  <section class="card">
+    <div class="card__header">
+      <h2>{{ title }}</h2>
+      <div class="muted">{{ rows|length }} строк</div>
+    </div>
+
+    {% if rows and rows|length > 0 %}
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              {% for col in columns %}
+                <th>{{ col }}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for r in rows %}
+              <tr>
+                {% for col in columns %}
+                  <td>{{ r.get(col, "") }}</td>
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="muted">{{ empty_text }}</p>
+    {% endif %}
+  </section>
+{% endmacro %}
+
+{% macro stats_table(title, items) %}
+  <section class="card">
+    <div class="card__header">
+      <h2>{{ title }}</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Метрика</th><th>Значение</th></tr>
+        </thead>
+        <tbody>
+          {% for k, v in items.items() %}
+            <tr><td>{{ k }}</td><td>{{ v }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+{% endmacro %}
+
+
