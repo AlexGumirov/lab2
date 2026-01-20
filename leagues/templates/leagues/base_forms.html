@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{% block title %}Leagues DB{% endblock %}</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; margin: 0; background:#f6f7fb; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+    .card { background: white; border-radius: 14px; padding: 16px; box-shadow: 0 6px 20px rgba(0,0,0,.06); }
+    .muted { color: #667085; font-size: 13px; }
+    .nav { display:flex; gap: 12px; margin-bottom: 16px; }
+    .nav a { text-decoration: none; color: #344054; font-weight: 600; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border-bottom: 1px solid #eee; padding: 10px 8px; text-align: left; vertical-align: top; }
+    .btn { display:inline-block; padding: 8px 12px; border-radius: 10px; background:#111827; color:#fff; text-decoration:none; border:0; cursor:pointer; }
+    .btn--ghost { background:#eef2ff; color:#111827; }
+    .btn--danger { background:#b42318; }
+    .row { display:flex; gap: 12px; flex-wrap: wrap; align-items:center; }
+    label { display:block; font-size: 13px; color:#344054; margin-bottom: 6px; }
+    input, select { width: 100%; padding: 10px 10px; border: 1px solid #d0d5dd; border-radius: 10px; }
+    .field { margin-bottom: 12px; }
+    .errors { color:#b42318; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="nav">
+      <a href="/">Дашборд</a>
+      <a href="{% url 'team-list' %}">Команды (CRUD)</a>
+    </nav>
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>
+

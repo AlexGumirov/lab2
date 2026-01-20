@@ -1,0 +1,50 @@
+{% extends "leagues/base_forms.html" %}
+
+{% block title %}Команды — CRUD{% endblock %}
+
+{% block content %}
+  <section class="card">
+    <div class="row" style="justify-content:space-between">
+      <div>
+        <h1 style="margin:0 0 6px">Команды</h1>
+        <div class="muted">Сущность Team связана с League (выбор лиги в форме).</div>
+      </div>
+      <a class="btn" href="{% url 'team-create' %}">Добавить команду</a>
+    </div>
+
+    <div style="margin-top:16px; overflow:auto">
+      <table>
+        <thead>
+          <tr>
+            <th>Team</th>
+            <th>League</th>
+            <th>Country</th>
+            <th>Sport</th>
+            <th>Is Top Team</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for t in teams %}
+            <tr>
+              <td>{{ t.name }}</td>
+              <td>{{ t.league.name }}</td>
+              <td>{{ t.league.country.name }}</td>
+              <td>{{ t.league.sport.name }}</td>
+              <td>{{ t.is_top_team }}</td>
+              <td class="row" style="justify-content:flex-end">
+                <a class="btn btn--ghost" href="{% url 'team-edit' t.id %}">Редактировать</a>
+                <a class="btn btn--danger" href="{% url 'team-delete' t.id %}">Удалить</a>
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="6" class="muted">Нет данных</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+{% endblock %}
+

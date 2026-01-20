@@ -1,6 +1,8 @@
 from django.db.models import Avg, Count, Max, Min, Sum, Q
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 
+from .forms import TeamForm
 from .models import League, Team
 
 
@@ -128,9 +130,47 @@ def dashboard(request):
             for t in Team.objects.select_related("league", "league__country", "league__sport").all()[:200]
         ],
         "teams_by_sport_rows": [
-            {"Sport": r["league__sport__name"], "Teams": r["teams"], "Top Teams": r["top_teams"]} for r in teams_by_sport
+            {"Sport": r["league__sport__name"], "Teams": r["teams"], "Top Teams": r["top_teams"]}
+            for r in teams_by_sport
         ],
     }
     return render(request, "leagues/dashboard.jinja2", context)
 
 
+def team_list(request):
+    teams = (
+        Team.objects.select_related("league", "league__country", "league__sport")
+        .order_by("league__name", "name")
+    )
+    return render(request, "leagues/team_list.html", {"teams": teams})
+
+
+def team_create(request):
+    if request.method == "POST":
+        form = TeamForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse("team-list"))
+    else:
+        form = TeamForm()
+    return render(request, "leagues/team_form.html", {"form": form, "mode": "create"})
+
+
+def team_edit(request, pk):
+    team = get_object_or_404(Team, pk=pk)
+    if request.method == "POST":
+        form = TeamForm(request.POST, instance=team)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse("team-list"))
+    else:
+        form = TeamForm(instance=team)
+    return render(request, "leagues/team_form.html", {"form": form, "team": team, "mode": "edit"})
+
+
+def team_delete(request, pk):
+    team = get_object_or_404(Team, pk=pk)
+    if request.method == "POST":
+        team.delete()
+        return redirect(reverse("team-list"))
+    return render(request, "leagues/team_confirm_delete.html", {"team": team})

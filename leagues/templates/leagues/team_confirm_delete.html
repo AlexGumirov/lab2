@@ -1,0 +1,21 @@
+{% extends "leagues/base_forms.html" %}
+
+{% block title %}Удаление команды{% endblock %}
+
+{% block content %}
+  <section class="card" style="max-width:720px">
+    <h1 style="margin:0 0 6px">Удаление команды</h1>
+    <div class="muted" style="margin-bottom:16px">
+      Вы действительно хотите удалить команду <b>{{ team.name }}</b> из лиги <b>{{ team.league.name }}</b>?
+    </div>
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="row" style="justify-content:flex-end; margin-top:16px">
+        <a class="btn btn--ghost" href="{% url 'team-list' %}">Отмена</a>
+        <button class="btn btn--danger" type="submit">Удалить</button>
+      </div>
+    </form>
+  </section>
+{% endblock %}
+

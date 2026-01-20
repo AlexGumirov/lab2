@@ -1,0 +1,48 @@
+{% extends "leagues/base_forms.html" %}
+
+{% block title %}
+  {% if mode == "edit" %}Редактирование команды{% else %}Добавление команды{% endif %}
+{% endblock %}
+
+{% block content %}
+  <section class="card" style="max-width:720px">
+    <h1 style="margin:0 0 6px">
+      {% if mode == "edit" %}Редактирование команды{% else %}Добавление команды{% endif %}
+    </h1>
+    <div class="muted" style="margin-bottom:16px">
+      В форме можно выбрать связанную лигу (FK `Team.league`).
+    </div>
+
+    {% if form.non_field_errors %}
+      <div class="errors">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="field">
+        <label for="{{ form.name.id_for_label }}">Название</label>
+        {{ form.name }}
+        {% if form.name.errors %}<div class="errors">{{ form.name.errors }}</div>{% endif %}
+      </div>
+
+      <div class="field">
+        <label for="{{ form.league.id_for_label }}">Лига</label>
+        {{ form.league }}
+        {% if form.league.errors %}<div class="errors">{{ form.league.errors }}</div>{% endif %}
+      </div>
+
+      <div class="field">
+        <label for="{{ form.is_top_team.id_for_label }}">Top Team</label>
+        {{ form.is_top_team }}
+        {% if form.is_top_team.errors %}<div class="errors">{{ form.is_top_team.errors }}</div>{% endif %}
+      </div>
+
+      <div class="row" style="justify-content:flex-end; margin-top:16px">
+        <a class="btn btn--ghost" href="{% url 'team-list' %}">Отмена</a>
+        <button class="btn" type="submit">Сохранить</button>
+      </div>
+    </form>
+  </section>
+{% endblock %}
+
