@@ -1,0 +1,4 @@
+docker compose up -d
+python manage.py migrate --noinput
+python manage.py import_leagues_csv --path top_expensive_leagues.csv
+python manage.py runserver 0.0.0.0:8000
