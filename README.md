@@ -3,8 +3,8 @@
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-python3 manage.py makemigrations
-python3 manage.py migrate
+docker compose up -d
+python manage.py migrate --noinput
 python manage.py import_leagues_csv --path top_expensive_leagues.csv
-python manage.py runserver
+python manage.py runserver 0.0.0.0:8000
 ```
